@@ -51,6 +51,11 @@ public class FrmAgregarExcepcion extends javax.swing.JFrame {
         cmdAgEx = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Agregar una excepción al diccionario");
@@ -134,6 +139,10 @@ public class FrmAgregarExcepcion extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cmdAgExActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

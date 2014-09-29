@@ -33,7 +33,44 @@ public class EditorTexto {
         int p0, p1;
         //sin.setHighlighter(null);
         Highlighter highlighter = sin.getHighlighter();
-        
+
+        HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+        HighlightPainter painter2 = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+        //HighlightPainter painter3 = new DefaultHighlighter.DefaultHighlightPainter(Color.WHITE);
+        //highlighter.addHighlight(0, sin.getText().length(), painter3);
+        highlighter.removeAllHighlights();
+        langT = new JLanguageTool(new Spanish());
+        langT.activateDefaultPatternRules();
+        List<RuleMatch> matches;
+        try {
+            matches = langT.check(sin.getText());
+            for (RuleMatch match : matches) {              
+
+                p0 = match.getFromPos();
+                p1 = match.getToPos();
+                if (match.getShortMessage().equalsIgnoreCase("Error de ortografía")) {
+                    highlighter.addHighlight(p0, p1, painter);
+                    sin.append(" ");
+                    //highlighter.changeHighlight(painter, p0, p1);
+
+                } else {
+                    highlighter.addHighlight(p0, p1, painter2);
+                    sin.append(" ");
+                }
+
+            }
+            cor.setText(acu);
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
+    }
+
+    public int corregirPregunta(JTextArea sin) throws IOException, BadLocationException {
+        int p0, p1,insertar = 0;
+        Highlighter highlighter = sin.getHighlighter();
+
         HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
         HighlightPainter painter2 = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
         //HighlightPainter painter3 = new DefaultHighlighter.DefaultHighlightPainter(Color.WHITE);
@@ -51,7 +88,7 @@ public class EditorTexto {
                         + match.getColumn() + ": ";
                 acu += " Contexto(";
                 int aux = match.getToPos() - match.getFromPos();
-                acu += sin.getText(match.getFromPos(), aux)+")";
+                acu += sin.getText(match.getFromPos(), aux) + ")";
 
                 acu += match.getMessage()
                         + (" Corrección Sugerida: " + match.getSuggestedReplacements() + "\n ");
@@ -62,22 +99,23 @@ public class EditorTexto {
                     highlighter.addHighlight(p0, p1, painter);
                     sin.append(" ");
                     //highlighter.changeHighlight(painter, p0, p1);
-                    
+
                 } else {
                     highlighter.addHighlight(p0, p1, painter2);
                     sin.append(" ");
                 }
-                
-
 
             }
-            cor.setText(acu);
+            if (!matches.isEmpty()) {
+                insertar=1;
+            }
             
 
         } catch (IOException ex) {
             System.out.println(ex);
         }
-
+        
+return insertar;
     }
 
 }
