@@ -67,11 +67,11 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         pack();
         LeerPregunta lp= new LeerPregunta();
           try {
-              txtFieldPregunta.setText(lp.Pregunta()+"?");
+              lblPregunta.setText(lp.Pregunta());
           } catch (FileNotFoundException ex) {
               Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
           }
-          txtFieldPregunta.setEditable(false);
+          //txtFieldPregunta.setEditable(false);
     }
 
     /**
@@ -95,7 +95,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         btnAgEx = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         lblNumeroPregunta = new javax.swing.JLabel();
-        txtFieldPregunta = new javax.swing.JTextField();
+        lblPregunta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,12 +148,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 
         lblNumeroPregunta.setText("1");
 
-        txtFieldPregunta.setText("jTextField1");
-        txtFieldPregunta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldPreguntaActionPerformed(evt);
-            }
-        });
+        lblPregunta.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,8 +177,8 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                         .addComponent(btnSiguiente))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNumeroPregunta)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFieldPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPregunta)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -192,11 +187,11 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroPregunta)
-                    .addComponent(txtFieldPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lblPregunta))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -208,7 +203,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,10 +232,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         ap.show();
         ap.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtFieldPreguntaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldPreguntaActionPerformed
-        
-    }//GEN-LAST:event_txtFieldPreguntaActionPerformed
   
 //    public void closeChild(){
 //        ae.dispose();
@@ -304,8 +295,8 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCaracRest;
     private javax.swing.JLabel lblNumeroPregunta;
+    private javax.swing.JLabel lblPregunta;
     private javax.swing.JTextArea txtAreaCorreccion;
     private javax.swing.JTextArea txtAreaRespuesta;
-    private javax.swing.JTextField txtFieldPregunta;
     // End of variables declaration//GEN-END:variables
 }

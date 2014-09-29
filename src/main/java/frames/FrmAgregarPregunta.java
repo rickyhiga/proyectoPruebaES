@@ -115,7 +115,7 @@ public class FrmAgregarPregunta extends javax.swing.JFrame {
 
                         BufferedWriter ofile;
 
-                        ofile = new BufferedWriter(new FileWriter("C:\\xampp\\htdocs\\proyectoPruebaES\\Preguntas.txt", true));
+                        ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
                         ofile.newLine();
                         ofile.append("\n" + TxtPregunta.getText());
 

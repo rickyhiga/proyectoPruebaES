@@ -125,7 +125,7 @@ public class FrmAgregarExcepcion extends javax.swing.JFrame {
                 
                 BufferedWriter ofile;
                 
-                ofile = new BufferedWriter(new FileWriter("C:\\Users\\user\\Documents\\RickyFacu\\2014\\Investigacion\\es\\src\\main\\resources\\org\\languagetool\\resource\\es\\hunspell\\ignore.txt", true));
+                ofile = new BufferedWriter(new FileWriter( ".\\src\\main\\resources\\org\\languagetool\\resource\\es\\hunspell\\ignore.txt", true));
                    ofile.newLine();
                    ofile.append("\n" + txtFieldPalabra.getText());
                 

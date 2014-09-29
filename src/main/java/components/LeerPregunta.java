@@ -29,7 +29,7 @@ public class LeerPregunta {
 
         String[] Preguntas;
         String Pregunta="";
-        FileReader in = new FileReader("C:\\xampp\\htdocs\\proyectoPruebaES\\Preguntas.txt");
+        FileReader in = new FileReader("Preguntas.txt");
         try {
 
             BufferedReader br = new BufferedReader(in);
