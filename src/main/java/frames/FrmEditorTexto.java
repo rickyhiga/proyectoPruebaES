@@ -26,7 +26,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     /**
      * Creates new form EditorTexto
      */
-      private int max=300;
+      private int max=20;
       private DefaultStyledDocument doc;
       
     public FrmEditorTexto() throws IOException {
@@ -119,7 +119,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 
         txtAreaCorreccion.setColumns(20);
         txtAreaCorreccion.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
-        txtAreaCorreccion.setLineWrap(true);
         txtAreaCorreccion.setRows(5);
         txtAreaCorreccion.setEnabled(false);
         jScrollPane2.setViewportView(txtAreaCorreccion);

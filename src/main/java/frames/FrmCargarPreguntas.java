@@ -5,8 +5,9 @@
  */
 package frames;
 
-import components.DocumentSizeFilter;
-import components.LeerPregunta;
+import components.*;
+
+import controllers.CargarPreguntas;
 import controllers.EditorTexto;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -30,17 +31,18 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
     /**
      * Creates new form EditorTexto
      */
-      
-     private DefaultStyledDocument doc;
-      
-    public FrmCargarPreguntas()  {
+    private DefaultStyledDocument preg, resp;
+    private CargarPreguntas pc = new CargarPreguntas();
+    private boolean clickCP=false;
+    private boolean clickCR=false;
+    private CargarPreguntas rc = new CargarPreguntas();
+
+    public FrmCargarPreguntas() {
         initComponents();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-       
-         doc = new DefaultStyledDocument();
-    
-        doc.addDocumentListener(new DocumentListener() {
+        preg = new DefaultStyledDocument();
+        preg.addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
                 updateCount();
@@ -56,11 +58,27 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
                 updateCount();
             }
         });
-        txtAreaPregunta.setDocument(doc);
-        
-
+        txtAreaPregunta.setDocument(preg);
         updateCount();
-        
+        resp = new DefaultStyledDocument();
+        resp.addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateCountResp();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateCountResp();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateCountResp();
+            }
+        });
+        this.txtAreaRes.setDocument(resp);
+        updateCountResp();
     }
 
     /**
@@ -74,15 +92,21 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaPregunta = new javax.swing.JTextArea();
-        btnSiguiente = new javax.swing.JButton();
-        btnCorregir = new javax.swing.JButton();
+        btnCorregirPreg = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        lblCaracRest = new javax.swing.JLabel();
+        lblCaracUsaP = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnAgEx = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtAreaRespuesta = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAreaCorreccionPreg = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        txtAreaRes = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtAreaCorreccionRes = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        lblCaracUsaR = new javax.swing.JLabel();
+        btnCorregirRes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,28 +116,25 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
         txtAreaPregunta.setRows(5);
         jScrollPane1.setViewportView(txtAreaPregunta);
 
-        btnSiguiente.setText("Siguiente");
-        btnSiguiente.setEnabled(false);
-
-        btnCorregir.setText("Corregir");
-        btnCorregir.setEnabled(false);
-        btnCorregir.addActionListener(new java.awt.event.ActionListener() {
+        btnCorregirPreg.setText("Corregir");
+        btnCorregirPreg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCorregirActionPerformed(evt);
+                btnCorregirPregActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
         jLabel2.setText("Recuerda que la Pregunta no debe poseer errores ortográficos ni sintácticos.");
 
-        lblCaracRest.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblCaracRest.setForeground(new java.awt.Color(0, 0, 204));
-        lblCaracRest.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCaracRest.setText("140");
+        lblCaracUsaP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblCaracUsaP.setForeground(new java.awt.Color(0, 0, 204));
+        lblCaracUsaP.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCaracUsaP.setText("140");
 
-        jLabel4.setText("Cantidad de Caracteres ");
+        jLabel4.setText("Cantidad de Caracteres Usados ");
 
-        btnAgEx.setText("Agregar Pregunta y respuesta");
+        btnAgEx.setText("Agregar Pregunta y Respuesta");
+        btnAgEx.setEnabled(false);
         btnAgEx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgExActionPerformed(evt);
@@ -122,11 +143,35 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
 
         jLabel1.setText("RESPUESTA A LA PREGUNTA PLANTEADA ARRIBA");
 
-        txtAreaRespuesta.setColumns(20);
-        txtAreaRespuesta.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtAreaRespuesta.setLineWrap(true);
-        txtAreaRespuesta.setRows(5);
-        jScrollPane3.setViewportView(txtAreaRespuesta);
+        txtAreaCorreccionPreg.setColumns(20);
+        txtAreaCorreccionPreg.setRows(5);
+        txtAreaCorreccionPreg.setEnabled(false);
+        jScrollPane2.setViewportView(txtAreaCorreccionPreg);
+
+        txtAreaRes.setColumns(20);
+        txtAreaRes.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtAreaRes.setLineWrap(true);
+        txtAreaRes.setRows(5);
+        jScrollPane4.setViewportView(txtAreaRes);
+
+        txtAreaCorreccionRes.setColumns(20);
+        txtAreaCorreccionRes.setRows(5);
+        txtAreaCorreccionRes.setEnabled(false);
+        jScrollPane5.setViewportView(txtAreaCorreccionRes);
+
+        jLabel5.setText("Cantidad de Caracteres Usados ");
+
+        lblCaracUsaR.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblCaracUsaR.setForeground(new java.awt.Color(0, 0, 204));
+        lblCaracUsaR.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCaracUsaR.setText("140");
+
+        btnCorregirRes.setText("Corregir");
+        btnCorregirRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCorregirResActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,119 +180,142 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane5)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 294, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+                        .addGap(172, 172, 172))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblCaracRest, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCorregir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSiguiente))
+                                .addComponent(btnAgEx))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCaracUsaR, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCorregirRes)
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblCaracUsaP, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCorregirPreg)))
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgEx)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSiguiente)
-                    .addComponent(btnCorregir)
-                    .addComponent(lblCaracRest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCaracUsaP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCorregirPreg))
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAgEx, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCaracUsaR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCorregirRes))
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgEx, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCorregirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirActionPerformed
+    private void btnCorregirPregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirPregActionPerformed
         try {
-            EditorTexto et = new EditorTexto();
-            et.corregirPregunta(txtAreaPregunta);
-        } catch (IOException ex) {
-            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadLocationException ex) {
-            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnCorregirActionPerformed
-    
-    private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
-        try {
-            EditorTexto et = new EditorTexto();
-            et.corregirPregunta(txtAreaPregunta);
-            et.corregirPregunta(txtAreaRespuesta);
-            if (et.corregirPregunta(txtAreaPregunta) == 0 && et.corregirPregunta(txtAreaRespuesta) == 0) {
-                int dialogResult = JOptionPane.showConfirmDialog(null, "La Pregunta a agregar es: " + txtAreaPregunta.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
-                if (dialogResult == JOptionPane.OK_OPTION) {
-                    try {
-
-                        BufferedWriter ofile;
-                        ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
-                        ofile.newLine();
-                        ofile.append("\n" + txtAreaPregunta.getText());                        
-                        ofile.close();
-                        BufferedWriter ofile2;
-
-                        ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
-                        ofile2.newLine();
-                        ofile2.append("\n" + txtAreaRespuesta.getText());                        
-                        ofile2.close();
-
-//                p.closeChild(this);
-                    } catch (IOException ex) {
-                        Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+            pc.corregir(this.txtAreaPregunta, this.txtAreaCorreccionPreg);
+            if(rc.getHayErrores()==false&&pc.getHayErrores()==false){
+                this.btnAgEx.enable(true);
             }
         } catch (IOException ex) {
-            Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadLocationException ex) {
-            Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCorregirPregActionPerformed
+
+    private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
+
+        if (pc.getHayErrores() == false) {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "La pregunta a agregar es: " + txtAreaPregunta.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
+            if (dialogResult == JOptionPane.OK_OPTION) {
+                try {
+
+                    BufferedWriter ofile;
+                    ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
+                    ofile.newLine();
+                    ofile.append("\n" + txtAreaPregunta.getText());
+                    ofile.close();
+                    BufferedWriter ofile2;
+
+                    ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
+                    ofile2.newLine();
+                    ofile2.append("\n" + txtAreaRes.getText());
+                    ofile2.close();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
-//        ae.setPadre(this);
+
     }//GEN-LAST:event_btnAgExActionPerformed
-  
-//    public void closeChild(){
-//        ae.dispose();
-//    }
-     private void updateCount() {
-       
-        lblCaracRest.setText(Integer.toString(doc.getLength()));
+
+    private void btnCorregirResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirResActionPerformed
+        try {
+            rc.corregir(this.txtAreaRes, this.txtAreaCorreccionRes);
+            if(rc.getHayErrores()==false&&pc.getHayErrores()==false){
+                this.btnAgEx.enable(true);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCorregirResActionPerformed
+    private void updateCountResp() {
+        // this.lblCaracUsaR.setText(Integer.toString(resp.getLength()));
+        lblCaracUsaR.setText(Integer.toString(resp.getLength()));
+    }
+
+    private void updateCount() {
+        // this.lblCaracUsaR.setText(Integer.toString(resp.getLength()));
+        lblCaracUsaP.setText(Integer.toString(preg.getLength()));
     }
 
     /**
      * @param args the command line arguments
      */
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -285,15 +353,21 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgEx;
-    private javax.swing.JButton btnCorregir;
-    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnCorregirPreg;
+    private javax.swing.JButton btnCorregirRes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblCaracRest;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lblCaracUsaP;
+    private javax.swing.JLabel lblCaracUsaR;
+    private javax.swing.JTextArea txtAreaCorreccionPreg;
+    private javax.swing.JTextArea txtAreaCorreccionRes;
     private javax.swing.JTextArea txtAreaPregunta;
-    private javax.swing.JTextArea txtAreaRespuesta;
+    private javax.swing.JTextArea txtAreaRes;
     // End of variables declaration//GEN-END:variables
 }
