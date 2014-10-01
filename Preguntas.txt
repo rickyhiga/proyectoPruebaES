@@ -4,3 +4,4 @@ Qué es un objeto
 Qué es un paradigma
 
 Defina paradigma lógico
+

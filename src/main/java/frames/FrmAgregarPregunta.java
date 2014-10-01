@@ -26,6 +26,8 @@ public class FrmAgregarPregunta extends javax.swing.JFrame {
      */
     public FrmAgregarPregunta() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -137,7 +139,7 @@ public class FrmAgregarPregunta extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdAgExActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);        // TODO add your handling code here:
+             // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
 
     /**

@@ -8,39 +8,38 @@ package frames;
 import components.DocumentSizeFilter;
 import components.LeerPregunta;
 import controllers.EditorTexto;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.text.BadLocationException;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
-import org.languagetool.rules.RuleMatch;
 //import components.DocumentSizeFilter;
 
 /**
  *
  * @author user
  */
-public class FrmEditorTexto extends javax.swing.JFrame {
+public class FrmCargarPreguntas extends javax.swing.JFrame {
 
     /**
      * Creates new form EditorTexto
      */
-      private int max=300;
-      private DefaultStyledDocument doc;
       
-    public FrmEditorTexto() throws IOException {
+     private DefaultStyledDocument doc;
+      
+    public FrmCargarPreguntas()  {
         initComponents();
-        setDefaultCloseOperation(EXIT_ON_CLOSE); 
-        doc = new DefaultStyledDocument();
-        doc.setDocumentFilter(new DocumentSizeFilter(max));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
+        setLocationRelativeTo(null);
+       
+         doc = new DefaultStyledDocument();
+    
         doc.addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -57,21 +56,11 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                 updateCount();
             }
         });
-        txtAreaRespuesta.setDocument(doc);
-
-        updateCount();
-
+        txtAreaPregunta.setDocument(doc);
         
 
-        setLocationRelativeTo(null);
-        pack();
-        LeerPregunta lp= new LeerPregunta();
-          try {
-              lblPregunta.setText(lp.Pregunta());
-          } catch (FileNotFoundException ex) {
-              Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          //txtFieldPregunta.setEditable(false);
+        updateCount();
+        
     }
 
     /**
@@ -84,31 +73,30 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtAreaRespuesta = new javax.swing.JTextArea();
+        txtAreaPregunta = new javax.swing.JTextArea();
         btnSiguiente = new javax.swing.JButton();
         btnCorregir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblCaracRest = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtAreaCorreccion = new javax.swing.JTextArea();
         btnAgEx = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        lblNumeroPregunta = new javax.swing.JLabel();
-        lblPregunta = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtAreaRespuesta = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtAreaRespuesta.setColumns(20);
-        txtAreaRespuesta.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtAreaRespuesta.setLineWrap(true);
-        txtAreaRespuesta.setRows(5);
-        txtAreaRespuesta.setText("Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. \nSe a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.");
-        jScrollPane1.setViewportView(txtAreaRespuesta);
+        txtAreaPregunta.setColumns(20);
+        txtAreaPregunta.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtAreaPregunta.setLineWrap(true);
+        txtAreaPregunta.setRows(5);
+        jScrollPane1.setViewportView(txtAreaPregunta);
 
         btnSiguiente.setText("Siguiente");
+        btnSiguiente.setEnabled(false);
 
         btnCorregir.setText("Corregir");
+        btnCorregir.setEnabled(false);
         btnCorregir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCorregirActionPerformed(evt);
@@ -116,70 +104,63 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
-        jLabel2.setText("Recuerda que la respuesta no debe poseer errores ortográficos ni sintácticos.");
+        jLabel2.setText("Recuerda que la Pregunta no debe poseer errores ortográficos ni sintácticos.");
 
         lblCaracRest.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblCaracRest.setForeground(new java.awt.Color(0, 0, 204));
         lblCaracRest.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblCaracRest.setText("140");
 
-        jLabel4.setText("Caracteres Restantes");
+        jLabel4.setText("Cantidad de Caracteres ");
 
-        txtAreaCorreccion.setColumns(20);
-        txtAreaCorreccion.setFont(new java.awt.Font("Times New Roman", 3, 16)); // NOI18N
-        txtAreaCorreccion.setLineWrap(true);
-        txtAreaCorreccion.setRows(5);
-        txtAreaCorreccion.setEnabled(false);
-        jScrollPane2.setViewportView(txtAreaCorreccion);
-
-        btnAgEx.setText("Agregar Excepción");
+        btnAgEx.setText("Agregar Pregunta y respuesta");
         btnAgEx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgExActionPerformed(evt);
             }
         });
 
-        jButton1.setText("agregar pregunta");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("RESPUESTA A LA PREGUNTA PLANTEADA ARRIBA");
 
-        lblNumeroPregunta.setText("1");
-
-        lblPregunta.setText("jLabel1");
+        txtAreaRespuesta.setColumns(20);
+        txtAreaRespuesta.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtAreaRespuesta.setLineWrap(true);
+        txtAreaRespuesta.setRows(5);
+        jScrollPane3.setViewportView(txtAreaRespuesta);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(304, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgEx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblCaracRest)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCorregir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSiguiente))
+                        .addGap(0, 294, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNumeroPregunta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblPregunta)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblCaracRest, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCorregir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSiguiente))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAgEx)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -187,23 +168,21 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel2)
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumeroPregunta)
-                    .addComponent(lblPregunta))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSiguiente)
                     .addComponent(btnCorregir)
                     .addComponent(lblCaracRest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAgEx)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAgEx, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -212,33 +191,57 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     private void btnCorregirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirActionPerformed
         try {
             EditorTexto et = new EditorTexto();
-            et.corregir(txtAreaRespuesta, txtAreaCorreccion);
+            et.corregirPregunta(txtAreaPregunta);
+        } catch (IOException ex) {
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCorregirActionPerformed
+    
+    private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
+        try {
+            EditorTexto et = new EditorTexto();
+            et.corregirPregunta(txtAreaPregunta);
+            et.corregirPregunta(txtAreaRespuesta);
+            if (et.corregirPregunta(txtAreaPregunta) == 0 && et.corregirPregunta(txtAreaRespuesta) == 0) {
+                int dialogResult = JOptionPane.showConfirmDialog(null, "La Pregunta a agregar es: " + txtAreaPregunta.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
+                if (dialogResult == JOptionPane.OK_OPTION) {
+                    try {
+
+                        BufferedWriter ofile;
+                        ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
+                        ofile.newLine();
+                        ofile.append("\n" + txtAreaPregunta.getText());                        
+                        ofile.close();
+                        BufferedWriter ofile2;
+
+                        ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
+                        ofile2.newLine();
+                        ofile2.append("\n" + txtAreaRespuesta.getText());                        
+                        ofile2.close();
+
+//                p.closeChild(this);
+                    } catch (IOException ex) {
+                        Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadLocationException ex) {
             Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnCorregirActionPerformed
-    
-    private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
-        FrmAgregarExcepcion ae=new FrmAgregarExcepcion();
-        ae.show();
-        ae.setLocationRelativeTo(null);
+
 //        ae.setPadre(this);
     }//GEN-LAST:event_btnAgExActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmAgregarPregunta ap = new FrmAgregarPregunta();
-        ap.show();
-        ap.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
   
 //    public void closeChild(){
 //        ae.dispose();
 //    }
-    private void updateCount() {
+     private void updateCount() {
        
-        lblCaracRest.setText(Integer.toString(max - doc.getLength()));
+        lblCaracRest.setText(Integer.toString(doc.getLength()));
     }
 
     /**
@@ -259,13 +262,13 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCargarPreguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCargarPreguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCargarPreguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCargarPreguntas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -273,11 +276,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    new FrmEditorTexto().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new FrmCargarPreguntas().setVisible(true);
             }
         });
 
@@ -288,15 +287,13 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     private javax.swing.JButton btnAgEx;
     private javax.swing.JButton btnCorregir;
     private javax.swing.JButton btnSiguiente;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCaracRest;
-    private javax.swing.JLabel lblNumeroPregunta;
-    private javax.swing.JLabel lblPregunta;
-    private javax.swing.JTextArea txtAreaCorreccion;
+    private javax.swing.JTextArea txtAreaPregunta;
     private javax.swing.JTextArea txtAreaRespuesta;
     // End of variables declaration//GEN-END:variables
 }

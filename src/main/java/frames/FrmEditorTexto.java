@@ -10,18 +10,11 @@ import components.LeerPregunta;
 import controllers.EditorTexto;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.text.BadLocationException;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
-import org.languagetool.rules.RuleMatch;
 //import components.DocumentSizeFilter;
 
 /**
@@ -38,7 +31,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
       
     public FrmEditorTexto() throws IOException {
         initComponents();
-        setDefaultCloseOperation(EXIT_ON_CLOSE); 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         doc = new DefaultStyledDocument();
         doc.setDocumentFilter(new DocumentSizeFilter(max));
         doc.addDocumentListener(new DocumentListener() {
@@ -93,7 +86,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaCorreccion = new javax.swing.JTextArea();
         btnAgEx = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         lblNumeroPregunta = new javax.swing.JLabel();
         lblPregunta = new javax.swing.JLabel();
 
@@ -139,13 +131,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("agregar pregunta");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         lblNumeroPregunta.setText("1");
 
         lblPregunta.setText("jLabel1");
@@ -164,8 +149,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnAgEx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
@@ -199,8 +183,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                     .addComponent(btnCorregir)
                     .addComponent(lblCaracRest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAgEx)
-                    .addComponent(jButton1))
+                    .addComponent(btnAgEx))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -226,12 +209,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         ae.setLocationRelativeTo(null);
 //        ae.setPadre(this);
     }//GEN-LAST:event_btnAgExActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmAgregarPregunta ap = new FrmAgregarPregunta();
-        ap.show();
-        ap.setLocationRelativeTo(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
   
 //    public void closeChild(){
 //        ae.dispose();
@@ -288,7 +265,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     private javax.swing.JButton btnAgEx;
     private javax.swing.JButton btnCorregir;
     private javax.swing.JButton btnSiguiente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;

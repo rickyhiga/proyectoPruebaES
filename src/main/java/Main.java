@@ -1,5 +1,5 @@
 
-import frames.FrmEditorTexto;
+import frames.MenuPrincipal;
 import java.io.IOException;
 
 /*
@@ -17,7 +17,7 @@ public class Main{
 
     public static void main(String[] ar) throws IOException {
 
-          FrmEditorTexto frm=new FrmEditorTexto();
+          MenuPrincipal frm=new MenuPrincipal();
           frm.show();
           
     }
