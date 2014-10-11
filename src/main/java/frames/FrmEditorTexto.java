@@ -8,10 +8,16 @@ package frames;
 import components.DocumentSizeFilter;
 import components.LeerPregunta;
 import controllers.EditorTexto;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.text.BadLocationException;
@@ -26,12 +32,12 @@ public class FrmEditorTexto extends javax.swing.JFrame {
     /**
      * Creates new form EditorTexto
      */
-      private int max=20;
-      private DefaultStyledDocument doc;
-      
+    private int max = 20;
+    private DefaultStyledDocument doc;
+
     public FrmEditorTexto() throws IOException {
         initComponents();
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         doc = new DefaultStyledDocument();
         doc.setDocumentFilter(new DocumentSizeFilter(max));
         doc.addDocumentListener(new DocumentListener() {
@@ -54,17 +60,15 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 
         updateCount();
 
-        
-
         setLocationRelativeTo(null);
         pack();
-        LeerPregunta lp= new LeerPregunta();
-          try {
-              lblPregunta.setText(lp.Pregunta());
-          } catch (FileNotFoundException ex) {
-              Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          //txtFieldPregunta.setEditable(false);
+        LeerPregunta lp = new LeerPregunta();
+        try {
+            lblPregunta.setText(lp.Pregunta());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //txtFieldPregunta.setEditable(false);    
     }
 
     /**
@@ -96,6 +100,11 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         txtAreaRespuesta.setLineWrap(true);
         txtAreaRespuesta.setRows(5);
         txtAreaRespuesta.setText("Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. \nSe a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.");
+        txtAreaRespuesta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAreaRespuestaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtAreaRespuesta);
 
         btnSiguiente.setText("Siguiente");
@@ -201,26 +210,72 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnCorregirActionPerformed
-    
+
     private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
-        FrmAgregarExcepcion ae=new FrmAgregarExcepcion();
+        FrmAgregarExcepcion ae = new FrmAgregarExcepcion();
         ae.show();
         ae.setLocationRelativeTo(null);
 //        ae.setPadre(this);
     }//GEN-LAST:event_btnAgExActionPerformed
-  
+
+    private void txtAreaRespuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAreaRespuestaMouseClicked
+        Robot bot;
+        int mask = InputEvent.BUTTON1_MASK;
+        System.out.println("hola");
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            try {
+                System.out.println("Entra al try");
+                bot = new Robot();
+
+                bot.mousePress(mask);
+                bot.delay(50);
+                bot.mouseRelease(mask);
+                bot.mousePress(mask);
+                bot.delay(50);
+                bot.mouseRelease(mask);
+
+                // if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                //   evt.consume();
+                System.out.println(txtAreaRespuesta.getCaret().getMark());
+                System.out.println(txtAreaRespuesta.getCaret().getDot());
+                //handle double click event.
+                //  }
+
+            } catch (AWTException ex) {
+                Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println(this.txtAreaRespuesta.getSelectedText());
+        }
+
+        //System.out.println( txtAreaRespuesta.getSelectedText());
+        // System.out.println(this.txtAreaRespuesta.getSelectedText());
+        //System.out.println(uno(txtAreaRespuesta.getCaret().getMark(),txtAreaRespuesta.getCaret().getDot()));
+//        
+//        JPopupMenu popup = new JPopupMenu();
+//                JMenu subMenu = new JMenu("m");
+//        txtAreaRespuesta.add(popup);
+//                txtAreaRespuesta.setComponentPopupMenu(popup);
+//                // 2. Let's create a sub-menu that "expands"
+//                subMenu.add("m1");
+//                subMenu.add("m2");
+//
+//// 3. Finally, add the sub-menu and item to the popup
+//                popup.add(subMenu);
+//                popup.add("n");
+
+    }//GEN-LAST:event_txtAreaRespuestaMouseClicked
+
 //    public void closeChild(){
 //        ae.dispose();
 //    }
     private void updateCount() {
-       
+
         lblCaracRest.setText(Integer.toString(max - doc.getLength()));
     }
 
     /**
      * @param args the command line arguments
      */
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -101,6 +101,9 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" value="Escriba un texto aqu&#xed;. LanguageTool le ayudar&#xe1; a afrentar algunas dificultades propias de la escritura. &#xa;Se a hecho un esfuerzo para detectar errores tipogr&#xe1;ficos, ortograficos y incluso gramaticales. Tambi&#xe9;n algunos errores de estilo, a grosso modo."/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtAreaRespuestaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
