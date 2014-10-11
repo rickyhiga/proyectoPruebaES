@@ -17,6 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.event.*;
 import javax.swing.text.*;
@@ -245,18 +248,24 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             }
 //            System.out.println(this.txtAreaRespuesta.getSelectedText());
         } else {
-           
+
             i++;
-             System.out.println("click izquierdo" + i);
+            System.out.println("click izquierdo" + i);
             if (i == 2) {
+                int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
+                int finPalabra = txtAreaRespuesta.getCaret().getDot();
+                int cursorX = evt.getXOnScreen();
+                int cursorY = evt.getYOnScreen();
+
                 System.out.println(txtAreaRespuesta.getCaret().getMark());
                 System.out.println(txtAreaRespuesta.getCaret().getDot());
-                
+
+//                Mostrar(inicioPalabra, finPalabra, cursorX, cursorY);
                 i = 0;
+
             }
-            
+
         }
-        
 
         //System.out.println( txtAreaRespuesta.getSelectedText());
         // System.out.println(this.txtAreaRespuesta.getSelectedText());
@@ -279,6 +288,16 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 //    public void closeChild(){
 //        ae.dispose();
 //    }
+//    public void Mostrar(int inicioPalabra, int finPalabra, int x, int y) {
+//
+//        JPopupMenu popup = new JPopupMenu();
+//        popup.add(new JMenuItem("Un elemento del menu")); //agregamos elemento
+//        popup.add(new JMenuItem("Otro elemento del menu"));
+//        popup.show();
+//        popup.setLocation(x, y);
+//
+//    }
+
     private void updateCount() {
 
         lblCaracRest.setText(Integer.toString(max - doc.getLength()));
