@@ -217,35 +217,46 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         ae.setLocationRelativeTo(null);
 //        ae.setPadre(this);
     }//GEN-LAST:event_btnAgExActionPerformed
-
+    int i = 0;
     private void txtAreaRespuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAreaRespuestaMouseClicked
         Robot bot;
+
         int mask = InputEvent.BUTTON1_MASK;
-        System.out.println("hola");
+
         if (SwingUtilities.isRightMouseButton(evt)) {
             try {
-                System.out.println("Entra al try");
+                System.out.println("click derecho");
                 bot = new Robot();
-
+                //System.out.println(txtAreaRespuesta.getCaret().getMark());
+                //System.out.println(txtAreaRespuesta.getCaret().getDot());
                 bot.mousePress(mask);
-                bot.delay(50);
+                bot.delay(10);
                 bot.mouseRelease(mask);
                 bot.mousePress(mask);
-                bot.delay(50);
+                bot.delay(10);
                 bot.mouseRelease(mask);
 
                 // if (evt.getClickCount() == 2 && !evt.isConsumed()) {
                 //   evt.consume();
-                System.out.println(txtAreaRespuesta.getCaret().getMark());
-                System.out.println(txtAreaRespuesta.getCaret().getDot());
                 //handle double click event.
                 //  }
-
             } catch (AWTException ex) {
                 Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println(this.txtAreaRespuesta.getSelectedText());
+//            System.out.println(this.txtAreaRespuesta.getSelectedText());
+        } else {
+           
+            i++;
+             System.out.println("click izquierdo" + i);
+            if (i == 2) {
+                System.out.println(txtAreaRespuesta.getCaret().getMark());
+                System.out.println(txtAreaRespuesta.getCaret().getDot());
+                
+                i = 0;
+            }
+            
         }
+        
 
         //System.out.println( txtAreaRespuesta.getSelectedText());
         // System.out.println(this.txtAreaRespuesta.getSelectedText());
