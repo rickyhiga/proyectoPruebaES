@@ -88,6 +88,22 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.wisdom-framework</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.7.2_1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.insubstantial</groupId>
+            <artifactId>substance-swingx</artifactId>
+            <version>7.3</version>
+        </dependency>
     </dependencies>
 
 </project>
