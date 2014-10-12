@@ -24,7 +24,6 @@ public class ManejoLang {
 
     Boolean tErrores;
     private JLanguageTool langT;
-    
 
     public ManejoLang() {
         tErrores = false;
@@ -51,7 +50,7 @@ public class ManejoLang {
         highlighter.removeAllHighlights();
         langT = new JLanguageTool(new Spanish());
         langT.activateDefaultPatternRules();
-        List<RuleMatch> matches;
+        List<RuleMatch> matches = null;
         StringBuilder acum = new StringBuilder("");
         try {
             matches = langT.check(sin.getText());
@@ -74,7 +73,7 @@ public class ManejoLang {
                     highlighter.addHighlight(p0, p1, painter2);
                     sin.append(" ");
                 }
-                tErrores=true;
+                tErrores = true;
                 cor.setText(acum.toString());
             }
             if (!matches.isEmpty()) {
@@ -86,4 +85,32 @@ public class ManejoLang {
         }
 
     }
+
+    public String palabrasParaItem(String sin) throws IOException, BadLocationException {
+
+        langT = new JLanguageTool(new Spanish());
+        langT.activateDefaultPatternRules();
+        List<RuleMatch> matches = null;
+        StringBuilder acum = new StringBuilder("");
+        try {
+            matches = langT.check(sin);
+            for (RuleMatch match : matches) {
+
+                acum.append("" + match.getSuggestedReplacements() + "\n ");
+
+                tErrores = true;
+                acum.toString();
+            }
+            if (!matches.isEmpty()) {
+                tErrores = false;
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        System.out.println(acum.toString());
+        return acum.toString();
+
+    }
+
 }

@@ -6,32 +6,29 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
 import javax.swing.JTextArea;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Spanish;
-import org.languagetool.rules.RuleMatch;
-import java.awt.Color;
-import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import javax.swing.text.Highlighter.HighlightPainter;
 import components.*;
+import java.util.List;
 
 /**
  *
  * @author user
  */
 public class EditorTexto {
-    
+
     private JLanguageTool langT;
     private String acu = "";
-    
+
     public void corregir(JTextArea sin, JTextArea cor) throws IOException, BadLocationException {
         ManejoLang m = new ManejoLang();
         m.corregirArea(sin, cor);
     }
-     
+
+    public String palabrasParaItem(String sin) throws IOException, BadLocationException {
+        ManejoLang n = new ManejoLang();
+        return n.palabrasParaItem(sin);
+    }
 }
