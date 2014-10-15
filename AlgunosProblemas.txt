@@ -1,0 +1,5 @@
+Problemas con el popup, si no seleccionas nada del popup no se cierra, y esta mal asignado el padre.
+Esta mal asignado el padre supongo, se cierra el frame y sigue abierto.
+Si borro y escribo devuelta tendria que desaparecer el popup
+Si queda abierto el popup responde lento el siguiente
+Cuando corrige seleccionando una opción, tendría que desaparecer el resaltado

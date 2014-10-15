@@ -244,17 +244,20 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             try {
                 System.out.println("click derecho");
                 bot = new Robot();
+                //System.out.println(txtAreaRespuesta.getCaret().getMark());
+                //System.out.println(txtAreaRespuesta.getCaret().getDot());
+                bot.mousePress(mask);
+                bot.delay(1);
+                bot.mouseRelease(mask);
+                bot.mousePress(mask);
+                bot.delay(1);
+                bot.mouseRelease(mask);
 
-                bot.mousePress(mask);
-                bot.delay(1);
-                bot.mouseRelease(mask);
-                bot.mousePress(mask);
-                bot.delay(1);
-                bot.mouseRelease(mask);
 
             } catch (AWTException ex) {
                 Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
             }
+
 
         } else {
 
@@ -290,12 +293,16 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 //    public void closeChild(){
 //        ae.dispose();
 //    }
+
      public void Mostrar(int inicioPalabra, int LargoPalabra, int x, int y) throws BadLocationException, IOException {
+
 
         final int posI = inicioPalabra, posF = LargoPalabra, finalPalabra = posI + posF;
         EditorTexto ed = new EditorTexto();
 
         final JPopupMenu popup = new JPopupMenu();
+
+
 
         for (final String retval : ed.palabrasParaItem(doc.getText(posI, posF)).split("[^A-Za-z_0-9]")) {
 
@@ -307,6 +314,8 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                     public void actionPerformed(ActionEvent e) {
 
                         try {
+
+
 
                             doc.replace(posI, posF, retval.toString(), null);
 

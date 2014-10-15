@@ -18,7 +18,7 @@ import java.util.List;
  * @author user
  */
 public class EditorTexto {
-    
+
     private JLanguageTool langT;
     private String acu = "";
 
