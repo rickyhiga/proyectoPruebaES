@@ -134,7 +134,6 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
         jLabel4.setText("Cantidad de Caracteres Usados ");
 
         btnAgEx.setText("Agregar Pregunta y Respuesta");
-        btnAgEx.setEnabled(false);
         btnAgEx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgExActionPerformed(evt);
@@ -253,9 +252,7 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
     private void btnCorregirPregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirPregActionPerformed
         try {
             pc.corregir(this.txtAreaPregunta, this.txtAreaCorreccionPreg);
-            if(rc.getHayErrores()==false&&pc.getHayErrores()==false){
-                this.btnAgEx.enable(true);
-            }
+            
         } catch (IOException ex) {
             Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadLocationException ex) {
@@ -265,27 +262,33 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
 
     private void btnAgExActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgExActionPerformed
 
-        if (pc.getHayErrores() == false) {
-            int dialogResult = JOptionPane.showConfirmDialog(null, "La pregunta a agregar es: " + txtAreaPregunta.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
+        if (pc.getHayErrores() == false && rc.getHayErrores()==false) {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "La pregunta a agregar es: " + txtAreaPregunta.getText()+". La respuesta es: "+ this.txtAreaRes.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
             if (dialogResult == JOptionPane.OK_OPTION) {
-                try {
-
-                    BufferedWriter ofile;
-                    ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
-                    ofile.newLine();
-                    ofile.append("\n" + txtAreaPregunta.getText());
-                    ofile.close();
-                    BufferedWriter ofile2;
-
-                    ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
-                    ofile2.newLine();
-                    ofile2.append("\n" + txtAreaRes.getText());
-                    ofile2.close();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
+//                try {
+//
+//                    BufferedWriter ofile;
+//                    ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
+//                    ofile.newLine();
+//                    ofile.append("\n" + txtAreaPregunta.getText());
+//                    ofile.close();
+//                    BufferedWriter ofile2;
+//
+//                    ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
+//                    ofile2.newLine();
+//                    ofile2.append("\n" + txtAreaRes.getText());
+//                    ofile2.close();
+//
+//                } catch (IOException ex) {
+//                    Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                if(rc.cargarPregunta(this.txtAreaPregunta, this.txtAreaRes)==true){
+                    JOptionPane.showMessageDialog(this, "Pregunta y respuesta cargada con éxito");
+                    this.dispose();
                 }
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "No deben haber errores ortográficos y tanto la pregunta como la respuestas deben ser validados al menos una vez");
         }
 
 
@@ -294,9 +297,6 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
     private void btnCorregirResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCorregirResActionPerformed
         try {
             rc.corregir(this.txtAreaRes, this.txtAreaCorreccionRes);
-            if(rc.getHayErrores()==false&&pc.getHayErrores()==false){
-                this.btnAgEx.enable(true);
-            }
         } catch (IOException ex) {
             Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadLocationException ex) {
@@ -306,11 +306,13 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
     private void updateCountResp() {
         // this.lblCaracUsaR.setText(Integer.toString(resp.getLength()));
         lblCaracUsaR.setText(Integer.toString(resp.getLength()));
+        rc.setHayErrores(true);
     }
 
     private void updateCount() {
         // this.lblCaracUsaR.setText(Integer.toString(resp.getLength()));
         lblCaracUsaP.setText(Integer.toString(preg.getLength()));
+        pc.setHayErrores(true);
     }
 
     /**

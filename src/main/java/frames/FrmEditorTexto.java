@@ -9,18 +9,26 @@ import components.DocumentSizeFilter;
 import components.LeerPregunta;
 import controllers.EditorTexto;
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.event.*;
 import javax.swing.text.*;
 import javax.swing.text.BadLocationException;
+import static org.apache.commons.lang.StringUtils.split;
 //import components.DocumentSizeFilter;
 
 /**
@@ -103,6 +111,15 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         txtAreaRespuesta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtAreaRespuestaMouseClicked(evt);
+            }
+        });
+        txtAreaRespuesta.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                none(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jScrollPane1.setViewportView(txtAreaRespuesta);
@@ -217,61 +234,109 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         ae.setLocationRelativeTo(null);
 //        ae.setPadre(this);
     }//GEN-LAST:event_btnAgExActionPerformed
-
+    int i = 0;
     private void txtAreaRespuestaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAreaRespuestaMouseClicked
         Robot bot;
+
         int mask = InputEvent.BUTTON1_MASK;
-        System.out.println("hola");
+
         if (SwingUtilities.isRightMouseButton(evt)) {
             try {
-                System.out.println("Entra al try");
+                System.out.println("click derecho");
                 bot = new Robot();
 
                 bot.mousePress(mask);
-                bot.delay(50);
+                bot.delay(1);
                 bot.mouseRelease(mask);
                 bot.mousePress(mask);
-                bot.delay(50);
+                bot.delay(1);
                 bot.mouseRelease(mask);
-
-                // if (evt.getClickCount() == 2 && !evt.isConsumed()) {
-                //   evt.consume();
-                System.out.println(txtAreaRespuesta.getCaret().getMark());
-                System.out.println(txtAreaRespuesta.getCaret().getDot());
-                //handle double click event.
-                //  }
 
             } catch (AWTException ex) {
                 Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println(this.txtAreaRespuesta.getSelectedText());
+
+        } else {
+
+            i++;
+            System.out.println("click izquierdo" + i);
+            if (i == 2) {
+                int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
+                int finPalabra = txtAreaRespuesta.getCaret().getDot();
+                int cantidadCaracteres = finPalabra - inicioPalabra;
+                int cursorX = evt.getXOnScreen();
+                int cursorY = evt.getYOnScreen();
+
+                try {
+                    Mostrar(inicioPalabra, cantidadCaracteres, cursorX, cursorY);
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                i = 0;
+
+            }
+
         }
 
-        //System.out.println( txtAreaRespuesta.getSelectedText());
-        // System.out.println(this.txtAreaRespuesta.getSelectedText());
-        //System.out.println(uno(txtAreaRespuesta.getCaret().getMark(),txtAreaRespuesta.getCaret().getDot()));
-//        
-//        JPopupMenu popup = new JPopupMenu();
-//                JMenu subMenu = new JMenu("m");
-//        txtAreaRespuesta.add(popup);
-//                txtAreaRespuesta.setComponentPopupMenu(popup);
-//                // 2. Let's create a sub-menu that "expands"
-//                subMenu.add("m1");
-//                subMenu.add("m2");
-//
-//// 3. Finally, add the sub-menu and item to the popup
-//                popup.add(subMenu);
-//                popup.add("n");
 
     }//GEN-LAST:event_txtAreaRespuestaMouseClicked
+
+    private void none(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_none
+        // TODO add your handling code here:
+    }//GEN-LAST:event_none
 
 //    public void closeChild(){
 //        ae.dispose();
 //    }
+     public void Mostrar(int inicioPalabra, int LargoPalabra, int x, int y) throws BadLocationException, IOException {
+
+        final int posI = inicioPalabra, posF = LargoPalabra, finalPalabra = posI + posF;
+        EditorTexto ed = new EditorTexto();
+
+        final JPopupMenu popup = new JPopupMenu();
+
+        for (final String retval : ed.palabrasParaItem(doc.getText(posI, posF)).split("[^A-Za-z_0-9]")) {
+
+            if ("".equals(ed.palabrasParaItem(doc.getText(posI, posF)))) {
+
+            } else {
+                final JMenuItem item = new JMenuItem(retval);
+                item.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        try {
+
+                            doc.replace(posI, posF, retval.toString(), null);
+
+                            popup.setVisible(false);
+
+                        } catch (BadLocationException ex) {
+                            Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                    }
+                });
+                popup.add(item);
+            }
+
+        }
+        if (ed.palabrasParaItem(doc.getText(posI, posF)) != "") {
+            popup.setVisible(true);
+
+            popup.setLocation(x, y);
+            popup.getMouseListeners();
+        }
+
+    }
+
     private void updateCount() {
 
         lblCaracRest.setText(Integer.toString(max - doc.getLength()));
     }
+
+  
 
     /**
      * @param args the command line arguments

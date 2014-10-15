@@ -24,19 +24,47 @@ public class ManejoLang {
 
     Boolean tErrores;
     private JLanguageTool langT;
-    
 
     public ManejoLang() {
-        tErrores = false;
+        tErrores = true;
     }
 
-    public void setTieneErrores() {
-        tErrores = true;
+    public void setTieneErrores(Boolean b) {
+        tErrores=b;
     }
 
     public boolean getTieneErrores() {
         return tErrores;
     }
+
+   
+public String palabrasParaItem(String sin) throws IOException, BadLocationException {
+
+        langT = new JLanguageTool(new Spanish());
+        langT.activateDefaultPatternRules();
+        List<RuleMatch> matches = null;
+        StringBuilder acum = new StringBuilder("");
+        try {
+            matches = langT.check(sin);
+            for (RuleMatch match : matches) {
+
+                acum.append("" + match.getSuggestedReplacements() + "\n ");
+
+                tErrores = true;
+                acum.toString();
+            }
+            if (matches.isEmpty()) {
+                tErrores = false;
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        
+        return acum.toString();
+
+    }
+
 
     public void corregirArea(JTextArea sin, JTextArea cor) throws IOException, BadLocationException {
         cor.setText("");
@@ -51,7 +79,7 @@ public class ManejoLang {
         highlighter.removeAllHighlights();
         langT = new JLanguageTool(new Spanish());
         langT.activateDefaultPatternRules();
-        List<RuleMatch> matches;
+        List<RuleMatch> matches = null;
         StringBuilder acum = new StringBuilder("");
         try {
             matches = langT.check(sin.getText());
@@ -74,11 +102,13 @@ public class ManejoLang {
                     highlighter.addHighlight(p0, p1, painter2);
                     sin.append(" ");
                 }
-                tErrores=true;
+                tErrores = true;
                 cor.setText(acum.toString());
             }
-            if (!matches.isEmpty()) {
+            if (matches.isEmpty()) {
                 tErrores = false;
+                cor.setText("No hay errores");
+                
             }
 
         } catch (IOException ex) {
@@ -86,4 +116,6 @@ public class ManejoLang {
         }
 
     }
+
+    
 }

@@ -6,6 +6,8 @@
 
 package frames;
 
+import controllers.Admin;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 /**
@@ -17,8 +19,16 @@ public class FrmAdmin extends javax.swing.JFrame {
     /**
      * Creates new form FrmCargarCicloLectivo
      */
+    Admin a;
+    JComboBox[] c=new JComboBox[3];
+        
     public FrmAdmin() {
         initComponents();
+        a=new Admin();
+        c[0]=this.cboEstadoPregunta;
+        c[1]=this.cboEstadoTema;
+        c[2]=this.cboEstadoUnidad;
+        a.cargarEstado(c,this.tblEstado);
     }
  
     /**
@@ -43,15 +53,15 @@ public class FrmAdmin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         cboTipoPregunta = new javax.swing.JComboBox();
         jPanel7 = new javax.swing.JPanel();
-        cmdModificar1 = new javax.swing.JButton();
+        cmdModificarPreg = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        cmdAgregar1 = new javax.swing.JButton();
+        cmdAgregarPreg = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPreguntas = new javax.swing.JTable();
         tabTemas = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTemas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtTema = new javax.swing.JTextField();
@@ -59,20 +69,20 @@ public class FrmAdmin extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        dateDesdeTema = new com.toedter.calendar.JDateChooser();
+        dateHastaTema = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         cboUnidadTema = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         cboEstadoTema = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
-        cmdModificar = new javax.swing.JButton();
-        cmdAgregar = new javax.swing.JButton();
+        cmdModificarTema = new javax.swing.JButton();
+        cmdAgregarTema = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         tabUnidades = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblUnidad = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         txtTema1 = new javax.swing.JTextField();
@@ -80,17 +90,34 @@ public class FrmAdmin extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
+        dateDesdeUnidad = new com.toedter.calendar.JDateChooser();
+        dateHastaUnidad = new com.toedter.calendar.JDateChooser();
         jPanel11 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        cboUnidadTema1 = new javax.swing.JComboBox();
         jLabel16 = new javax.swing.JLabel();
-        cboEstadoTema1 = new javax.swing.JComboBox();
+        cboEstadoUnidad = new javax.swing.JComboBox();
         jPanel12 = new javax.swing.JPanel();
-        cmdModificar2 = new javax.swing.JButton();
-        cmdAgregar2 = new javax.swing.JButton();
+        cmdModificarUnidad = new javax.swing.JButton();
+        cmdAgregarUnidad = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
+        tabOtros = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        txtDescripcionEstado = new javax.swing.JTextField();
+        cmdAgregarEstado = new javax.swing.JButton();
+        cmdModificarEstado = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblEstado = new javax.swing.JTable();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel20 = new javax.swing.JLabel();
+        txtDescripcionPlan = new javax.swing.JTextField();
+        cmdAgregarPlan = new javax.swing.JButton();
+        cmdModificarPlan = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblPlan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,56 +128,60 @@ public class FrmAdmin extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Tema");
 
-        cboTemaPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboTemaPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
         cboTemaPregunta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Plan");
 
-        cboPlanPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboPlanPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
         cboPlanPregunta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Estado");
 
-        cboEstadoPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboEstadoPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
         cboEstadoPregunta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Tipo Pregunta");
 
-        cboTipoPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboTipoPregunta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
         cboTipoPregunta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        cmdModificar1.setText("Modificar");
+        cmdModificarPreg.setText("Modificar");
 
         jButton3.setText("jButton1");
 
-        cmdAgregar1.setText("Agregar");
+        cmdAgregarPreg.setText("Agregar");
+        cmdAgregarPreg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAgregarPregActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(42, 42, 42))
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdModificar1)
-                    .addComponent(cmdAgregar1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cmdModificarPreg)
+                    .addComponent(cmdAgregarPreg, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(cmdAgregar1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdModificar1)
+                .addComponent(cmdAgregarPreg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmdModificarPreg)
+                .addGap(17, 17, 17)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
@@ -201,7 +232,7 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         tblPreguntas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "id", "Descripcion", "Tema", "Plan", "Ciclo Lectivo", "Tipo", "Estado"
@@ -232,12 +263,9 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         tabs.addTab("Preguntas", tabPreguntas);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTemas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "id", "Descripcion", "Desde", "Hasta", "Unidad", "Estado"
@@ -251,12 +279,12 @@ public class FrmAdmin extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        tblTemas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblTemas);
+        if (tblTemas.getColumnModel().getColumnCount() > 0) {
+            tblTemas.getColumnModel().getColumn(0).setResizable(false);
+            tblTemas.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblTemas.getColumnModel().getColumn(1).setResizable(false);
         }
 
         jLabel5.setText("Tema");
@@ -300,9 +328,8 @@ public class FrmAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addComponent(dateHastaTema, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                    .addComponent(dateDesdeTema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,11 +339,11 @@ public class FrmAdmin extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateDesdeTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dateHastaTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jLabel6)))
@@ -325,11 +352,11 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         jLabel9.setText("Unidad");
 
-        cboUnidadTema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboUnidadTema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         jLabel10.setText("Estado");
 
-        cboEstadoTema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboEstadoTema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -362,9 +389,9 @@ public class FrmAdmin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        cmdModificar.setText("Modificar");
+        cmdModificarTema.setText("Modificar");
 
-        cmdAgregar.setText("Agregar");
+        cmdAgregarTema.setText("Agregar");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -373,17 +400,17 @@ public class FrmAdmin extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdModificar)
-                    .addComponent(cmdAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cmdModificarTema)
+                    .addComponent(cmdAgregarTema, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 33, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(cmdAgregar)
+                .addComponent(cmdAgregarTema)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdModificar)
+                .addComponent(cmdModificarTema)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -393,9 +420,6 @@ public class FrmAdmin extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -407,6 +431,7 @@ public class FrmAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
+            .addComponent(jScrollPane2)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,34 +463,31 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         tabs.addTab("Temas", tabTemas);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblUnidad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "id", "Descripcion", "Desde", "Hasta", "Unidad", "Estado"
+                "id", "Descripcion", "Desde", "Hasta", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
+        tblUnidad.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tblUnidad);
+        if (tblUnidad.getColumnModel().getColumnCount() > 0) {
+            tblUnidad.getColumnModel().getColumn(0).setResizable(false);
+            tblUnidad.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblUnidad.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jLabel11.setText("Tema");
+        jLabel11.setText("Unidad");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -474,7 +496,7 @@ public class FrmAdmin extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTema1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -506,9 +528,8 @@ public class FrmAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addComponent(dateDesdeUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                    .addComponent(dateHastaUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,24 +539,20 @@ public class FrmAdmin extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel13)
-                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateDesdeUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
-                            .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dateHastaUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jLabel12)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel15.setText("Unidad");
-
-        cboUnidadTema1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
-
         jLabel16.setText("Estado");
 
-        cboEstadoTema1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Item 2", "Item 3", "Item 4" }));
+        cboEstadoUnidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos" }));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -543,34 +560,24 @@ public class FrmAdmin extends javax.swing.JFrame {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboUnidadTema1, 0, 109, Short.MAX_VALUE))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboEstadoTema1, 0, 109, Short.MAX_VALUE)))
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cboEstadoUnidad, 0, 109, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(cboUnidadTema1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(cboEstadoTema1))
-                .addContainerGap())
+                    .addComponent(cboEstadoUnidad))
+                .addGap(21, 21, 21))
         );
 
-        cmdModificar2.setText("Modificar");
+        cmdModificarUnidad.setText("Modificar");
 
-        cmdAgregar2.setText("Agregar");
+        cmdAgregarUnidad.setText("Agregar");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -579,17 +586,17 @@ public class FrmAdmin extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdModificar2)
-                    .addComponent(cmdAgregar2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cmdModificarUnidad)
+                    .addComponent(cmdAgregarUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 29, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(cmdAgregar2)
+                .addComponent(cmdAgregarUnidad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdModificar2)
+                .addComponent(cmdModificarUnidad)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -600,19 +607,17 @@ public class FrmAdmin extends javax.swing.JFrame {
         tabUnidadesLayout.setHorizontalGroup(
             tabUnidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabUnidadesLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 796, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
-            .addGroup(tabUnidadesLayout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(29, 29, 29))
+            .addComponent(jScrollPane3)
         );
         tabUnidadesLayout.setVerticalGroup(
             tabUnidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -630,6 +635,178 @@ public class FrmAdmin extends javax.swing.JFrame {
         );
 
         tabs.addTab("Unidades", tabUnidades);
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel17.setText("Estado");
+
+        jLabel18.setText("Descripción");
+
+        txtDescripcionEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescripcionEstadoActionPerformed(evt);
+            }
+        });
+
+        cmdAgregarEstado.setText("Agregar");
+        cmdAgregarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAgregarEstadoActionPerformed(evt);
+            }
+        });
+
+        cmdModificarEstado.setText("Modificar");
+        cmdModificarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdModificarEstadoActionPerformed(evt);
+            }
+        });
+
+        tblEstado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Descripcion"
+            }
+        ));
+        tblEstado.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(tblEstado);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cmdModificarEstado)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdAgregarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 72, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(txtDescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdAgregarEstado))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmdModificarEstado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel19.setText("Plan");
+
+        jLabel20.setText("Descripción");
+
+        txtDescripcionPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescripcionPlanActionPerformed(evt);
+            }
+        });
+
+        cmdAgregarPlan.setText("Agregar");
+
+        cmdModificarPlan.setText("Modificar");
+
+        tblPlan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Descripcion"
+            }
+        ));
+        tblPlan.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(tblPlan);
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator4))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cmdModificarPlan)
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDescripcionPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdAgregarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 92, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(txtDescripcionPlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdAgregarPlan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmdModificarPlan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout tabOtrosLayout = new javax.swing.GroupLayout(tabOtros);
+        tabOtros.setLayout(tabOtrosLayout);
+        tabOtrosLayout.setHorizontalGroup(
+            tabOtrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabOtrosLayout.createSequentialGroup()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        tabOtrosLayout.setVerticalGroup(
+            tabOtrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabOtrosLayout.createSequentialGroup()
+                .addGroup(tabOtrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 309, Short.MAX_VALUE))
+        );
+
+        tabs.addTab("Otros", tabOtros);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -650,6 +827,28 @@ public class FrmAdmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtDescripcionEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripcionEstadoActionPerformed
+
+    private void txtDescripcionPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionPlanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripcionPlanActionPerformed
+
+    private void cmdAgregarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarEstadoActionPerformed
+        a.agregarEstado(this.txtDescripcionEstado);
+        a.cargarEstado(c, this.tblEstado);
+    }//GEN-LAST:event_cmdAgregarEstadoActionPerformed
+
+    private void cmdModificarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdModificarEstadoActionPerformed
+        
+    }//GEN-LAST:event_cmdModificarEstadoActionPerformed
+
+    private void cmdAgregarPregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarPregActionPerformed
+        FrmCargarPreguntas fr=new FrmCargarPreguntas();
+        fr.show();
+    }//GEN-LAST:event_cmdAgregarPregActionPerformed
 
     /**
      * @param args the command line arguments
@@ -689,32 +888,38 @@ public class FrmAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cboEstadoPregunta;
     private javax.swing.JComboBox cboEstadoTema;
-    private javax.swing.JComboBox cboEstadoTema1;
+    private javax.swing.JComboBox cboEstadoUnidad;
     private javax.swing.JComboBox cboPlanPregunta;
     private javax.swing.JComboBox cboTemaPregunta;
     private javax.swing.JComboBox cboTipoPregunta;
     private javax.swing.JComboBox cboUnidadTema;
-    private javax.swing.JComboBox cboUnidadTema1;
-    private javax.swing.JButton cmdAgregar;
-    private javax.swing.JButton cmdAgregar1;
-    private javax.swing.JButton cmdAgregar2;
-    private javax.swing.JButton cmdModificar;
-    private javax.swing.JButton cmdModificar1;
-    private javax.swing.JButton cmdModificar2;
+    private javax.swing.JButton cmdAgregarEstado;
+    private javax.swing.JButton cmdAgregarPlan;
+    private javax.swing.JButton cmdAgregarPreg;
+    private javax.swing.JButton cmdAgregarTema;
+    private javax.swing.JButton cmdAgregarUnidad;
+    private javax.swing.JButton cmdModificarEstado;
+    private javax.swing.JButton cmdModificarPlan;
+    private javax.swing.JButton cmdModificarPreg;
+    private javax.swing.JButton cmdModificarTema;
+    private javax.swing.JButton cmdModificarUnidad;
+    private com.toedter.calendar.JDateChooser dateDesdeTema;
+    private com.toedter.calendar.JDateChooser dateDesdeUnidad;
+    private com.toedter.calendar.JDateChooser dateHastaTema;
+    private com.toedter.calendar.JDateChooser dateHastaUnidad;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -726,26 +931,37 @@ public class FrmAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel tabOtros;
     private javax.swing.JPanel tabPreguntas;
     private javax.swing.JPanel tabTemas;
     private javax.swing.JPanel tabUnidades;
     private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTable tblEstado;
+    private javax.swing.JTable tblPlan;
     private javax.swing.JTable tblPreguntas;
+    private javax.swing.JTable tblTemas;
+    private javax.swing.JTable tblUnidad;
+    private javax.swing.JTextField txtDescripcionEstado;
+    private javax.swing.JTextField txtDescripcionPlan;
     private javax.swing.JTextField txtTema;
     private javax.swing.JTextField txtTema1;
     // End of variables declaration//GEN-END:variables
