@@ -6,8 +6,8 @@
 
 package controllers;
 
-import components.DataBase;
-import components.ManejoLang;
+import clases.DataBase;
+import clases.ManejoLang;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;

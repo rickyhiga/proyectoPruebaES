@@ -5,13 +5,7 @@
  */
 package frames;
 
-import components.*;
-
 import controllers.CargarPreguntas;
-import controllers.EditorTexto;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -265,23 +259,6 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
         if (pc.getHayErrores() == false && rc.getHayErrores()==false) {
             int dialogResult = JOptionPane.showConfirmDialog(null, "La pregunta a agregar es: " + txtAreaPregunta.getText()+". La respuesta es: "+ this.txtAreaRes.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
             if (dialogResult == JOptionPane.OK_OPTION) {
-//                try {
-//
-//                    BufferedWriter ofile;
-//                    ofile = new BufferedWriter(new FileWriter("Preguntas.txt", true));
-//                    ofile.newLine();
-//                    ofile.append("\n" + txtAreaPregunta.getText());
-//                    ofile.close();
-//                    BufferedWriter ofile2;
-//
-//                    ofile2 = new BufferedWriter(new FileWriter("Respuestas.txt", true));
-//                    ofile2.newLine();
-//                    ofile2.append("\n" + txtAreaRes.getText());
-//                    ofile2.close();
-//
-//                } catch (IOException ex) {
-//                    Logger.getLogger(FrmAgregarExcepcion.class.getName()).log(Level.SEVERE, null, ex);
-//                }
                 if(rc.cargarPregunta(this.txtAreaPregunta, this.txtAreaRes)==true){
                     JOptionPane.showMessageDialog(this, "Pregunta y respuesta cargada con éxito");
                     this.dispose();

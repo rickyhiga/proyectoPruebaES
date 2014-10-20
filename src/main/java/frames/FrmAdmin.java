@@ -7,6 +7,9 @@
 package frames;
 
 import controllers.Admin;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
@@ -22,7 +25,7 @@ public class FrmAdmin extends javax.swing.JFrame {
     Admin a;
     JComboBox[] c=new JComboBox[3];
         
-    public FrmAdmin() {
+    public FrmAdmin() throws SQLException {
         initComponents();
         a=new Admin();
         c[0]=this.cboEstadoPregunta;
@@ -838,7 +841,11 @@ public class FrmAdmin extends javax.swing.JFrame {
 
     private void cmdAgregarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarEstadoActionPerformed
         a.agregarEstado(this.txtDescripcionEstado);
-        a.cargarEstado(c, this.tblEstado);
+        try {
+            a.cargarEstado(c, this.tblEstado);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_cmdAgregarEstadoActionPerformed
 
     private void cmdModificarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdModificarEstadoActionPerformed
@@ -880,7 +887,11 @@ public class FrmAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmAdmin().setVisible(true);
+                try {
+                    new FrmAdmin().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

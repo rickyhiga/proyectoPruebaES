@@ -5,12 +5,12 @@
  */
 package controllers;
 
+import clases.ManejoLang;
 import java.io.IOException;
 import javax.swing.JTextArea;
 
 import org.languagetool.JLanguageTool;
 import javax.swing.text.BadLocationException;
-import components.*;
 import java.util.List;
 
 /**

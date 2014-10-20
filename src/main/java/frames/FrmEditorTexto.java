@@ -5,8 +5,8 @@
  */
 package frames;
 
-import components.DocumentSizeFilter;
-import components.LeerPregunta;
+import clases.DocumentSizeFilter;
+import clases.LeerPregunta;
 import controllers.EditorTexto;
 import java.awt.AWTException;
 import java.awt.Color;
