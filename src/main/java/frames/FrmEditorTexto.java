@@ -14,6 +14,8 @@ import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
@@ -42,6 +44,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
      */
     private int max = 20;
     private DefaultStyledDocument doc;
+    public long firstClickTime = 0;
 
     public FrmEditorTexto() throws IOException {
         initComponents();
@@ -76,7 +79,16 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //txtFieldPregunta.setEditable(false);    
+
+//        addWindowListener(
+//                new java.awt.event.WindowAdapter() {
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        
+//                        
+//                        
+//                    }
+//                }
+//        );
     }
 
     /**
@@ -111,15 +123,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         txtAreaRespuesta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtAreaRespuestaMouseClicked(evt);
-            }
-        });
-        txtAreaRespuesta.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                none(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jScrollPane1.setViewportView(txtAreaRespuesta);
@@ -242,87 +245,136 @@ public class FrmEditorTexto extends javax.swing.JFrame {
 
         if (SwingUtilities.isRightMouseButton(evt)) {
             try {
+                firstClickTime = 0;
                 System.out.println("click derecho");
                 bot = new Robot();
                 //System.out.println(txtAreaRespuesta.getCaret().getMark());
                 //System.out.println(txtAreaRespuesta.getCaret().getDot());
                 bot.mousePress(mask);
-                bot.delay(1);
+                //bot.delay(1);
                 bot.mouseRelease(mask);
                 bot.mousePress(mask);
-                bot.delay(1);
+                // bot.delay(1);
                 bot.mouseRelease(mask);
-
 
             } catch (AWTException ex) {
                 Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }
+        long clickTime = System.currentTimeMillis();
+        long clickInterval = clickTime - firstClickTime;
+        if (clickInterval < 200) {
+            System.out.println("entro al if");
 
-        } else {
+            firstClickTime = 0;
+            int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
+            int finPalabra = txtAreaRespuesta.getCaret().getDot();
+            int cantidadCaracteres = finPalabra - inicioPalabra;
+            int cursorX = evt.getXOnScreen();
+            int cursorY = evt.getYOnScreen();
 
-            i++;
-            System.out.println("click izquierdo" + i);
-            if (i == 2) {
-                int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
-                int finPalabra = txtAreaRespuesta.getCaret().getDot();
-                int cantidadCaracteres = finPalabra - inicioPalabra;
-                int cursorX = evt.getXOnScreen();
-                int cursorY = evt.getYOnScreen();
-
-                try {
-                    Mostrar(inicioPalabra, cantidadCaracteres, cursorX, cursorY);
-                } catch (BadLocationException ex) {
-                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                i = 0;
-
+            try {
+                Mostrar(inicioPalabra, cantidadCaracteres, cursorX, cursorY);
+            } catch (BadLocationException | IOException ex) {
+                Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        } else if (!SwingUtilities.isRightMouseButton(evt)) {
+            System.out.println("entro al else");
+            firstClickTime = clickTime;
         }
 
+//        else {
+//
+//            i++;
+//            System.out.println("click izquierdo" + i);
+//            if (i == 2) {
+//                int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
+//            int finPalabra = txtAreaRespuesta.getCaret().getDot();
+//            int cantidadCaracteres = finPalabra - inicioPalabra;
+//            int cursorX = evt.getXOnScreen();
+//            int cursorY = evt.getYOnScreen();
+//
+//            try {
+//                Mostrar(inicioPalabra, cantidadCaracteres, cursorX, cursorY);
+//            } catch (BadLocationException ex) {
+//                Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            i = 0;
+//
+//            }
+//
+//        }
 
     }//GEN-LAST:event_txtAreaRespuestaMouseClicked
-
-    private void none(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_none
-        // TODO add your handling code here:
-    }//GEN-LAST:event_none
 
 //    public void closeChild(){
 //        ae.dispose();
 //    }
-
-     public void Mostrar(int inicioPalabra, int LargoPalabra, int x, int y) throws BadLocationException, IOException {
-
+    public void Mostrar(int inicioPalabra, int LargoPalabra, int x, int y) throws BadLocationException, IOException {
 
         final int posI = inicioPalabra, posF = LargoPalabra, finalPalabra = posI + posF;
         EditorTexto ed = new EditorTexto();
 
         final JPopupMenu popup = new JPopupMenu();
 
-
-
         for (final String retval : ed.palabrasParaItem(doc.getText(posI, posF)).split("[^A-Za-z_0-9]")) {
 
             if ("".equals(ed.palabrasParaItem(doc.getText(posI, posF)))) {
 
             } else {
+
                 final JMenuItem item = new JMenuItem(retval);
+                System.out.println("entro al new item");
+                txtAreaRespuesta.addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        popup.setVisible(false);
+                    }
+                });
+                txtAreaRespuesta.addKeyListener(new KeyListener() {
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        popup.setVisible(false);
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        popup.setVisible(false);
+                    }
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        popup.setVisible(false);
+                    }
+                });
+
+                addWindowListener(
+                        new java.awt.event.WindowAdapter() {
+
+                            public void windowClosing(java.awt.event.WindowEvent e) {
+                                popup.setVisible(false);
+                            }
+                        }
+                );
+
                 item.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
 
                         try {
-
-
 
                             doc.replace(posI, posF, retval.toString(), null);
 
                             popup.setVisible(false);
 
                         } catch (BadLocationException ex) {
-                            Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(FrmEditorTexto.class
+                                    .getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
@@ -345,8 +397,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         lblCaracRest.setText(Integer.toString(max - doc.getLength()));
     }
 
-  
-
     /**
      * @param args the command line arguments
      */
@@ -361,16 +411,21 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEditorTexto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEditorTexto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEditorTexto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEditorTexto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEditorTexto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -380,8 +435,10 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             public void run() {
                 try {
                     new FrmEditorTexto().setVisible(true);
+
                 } catch (IOException ex) {
-                    Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FrmEditorTexto.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
