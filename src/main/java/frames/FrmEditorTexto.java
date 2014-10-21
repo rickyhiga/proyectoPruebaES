@@ -80,15 +80,6 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             Logger.getLogger(FrmEditorTexto.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        addWindowListener(
-//                new java.awt.event.WindowAdapter() {
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        
-//                        
-//                        
-//                    }
-//                }
-//        );
     }
 
     /**
@@ -265,7 +256,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
         long clickTime = System.currentTimeMillis();
         long clickInterval = clickTime - firstClickTime;
         if (clickInterval < 200) {
-            System.out.println("entro al if");
+            //System.out.println("entro al if");
 
             firstClickTime = 0;
             int inicioPalabra = txtAreaRespuesta.getCaret().getMark();
@@ -281,7 +272,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             }
 
         } else if (!SwingUtilities.isRightMouseButton(evt)) {
-            System.out.println("entro al else");
+            // System.out.println("entro al else");
             firstClickTime = clickTime;
         }
 
@@ -328,7 +319,7 @@ public class FrmEditorTexto extends javax.swing.JFrame {
             } else {
 
                 final JMenuItem item = new JMenuItem(retval);
-                System.out.println("entro al new item");
+                //System.out.println("entro al new item");
                 txtAreaRespuesta.addMouseListener(new MouseAdapter() {
 
                     @Override
@@ -341,16 +332,23 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                     @Override
                     public void keyPressed(KeyEvent e) {
                         popup.setVisible(false);
+                        Highlighter highlighter = txtAreaRespuesta.getHighlighter();
+                        highlighter.removeAllHighlights();
+
                     }
 
                     @Override
                     public void keyReleased(KeyEvent e) {
                         popup.setVisible(false);
+                        Highlighter highlighter = txtAreaRespuesta.getHighlighter();
+                        highlighter.removeAllHighlights();
                     }
 
                     @Override
                     public void keyTyped(KeyEvent e) {
                         popup.setVisible(false);
+                        Highlighter highlighter = txtAreaRespuesta.getHighlighter();
+                        highlighter.removeAllHighlights();
                     }
                 });
 
@@ -369,7 +367,8 @@ public class FrmEditorTexto extends javax.swing.JFrame {
                         try {
 
                             doc.replace(posI, posF, retval.toString(), null);
-
+                            Highlighter highlighter = txtAreaRespuesta.getHighlighter();
+                            highlighter.removeAllHighlights();
                             popup.setVisible(false);
 
                         } catch (BadLocationException ex) {
