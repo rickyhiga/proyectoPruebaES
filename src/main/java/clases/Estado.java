@@ -6,6 +6,11 @@
 
 package clases;
 
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
@@ -17,6 +22,8 @@ public class Estado {
         this.id_estado=id;
         this.descripcion=des;
     }
+
+   
 
     public int getId_estado() {
         return id_estado;
@@ -38,5 +45,6 @@ public class Estado {
     public String toString() {
         return "Estado{" + "id_estado=" + id_estado + ", descripcion=" + descripcion + '}';
     }
+  
     
 }

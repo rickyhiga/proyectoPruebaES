@@ -18,14 +18,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author user
  */
-public class Access extends AbstractDB {
+//DBAccessSQLite deberia llamarse
+public abstract class Access extends AbstractDB {
 
     public Access(String dbFile) {
         super.dbPath.append(dbFile);
         super.crearTablas();
     }
 
-    public int getMaxId(String tabla, String clave) {
+    public int getMaxId(String tabla, String clave) throws SQLException{
         StringBuilder st = new StringBuilder("");
         st.append("SELECT MAX(");
         st.append(clave);
@@ -33,10 +34,24 @@ public class Access extends AbstractDB {
         st.append(tabla);
         st.append(" LIMIT 1;");
         super.setQuery(st.toString());
-        return super.getIntFromQuery();
+        super.openConnection();
+        int i = this.getIntFromQuery();
+        super.closeConnection();
+        return i;
     }
 
-    public int getId(String tabla, String clave, String condicion) {
+    private int getIntFromQuery() throws SQLException {
+
+        ResultSet rows = super.getResultsFromQuery();
+        int i = -1;
+        if (rows.next()) {
+            i = rows.getInt(1);
+        }
+        return i;
+    }
+
+    public int getId(String tabla, String clave, String condicion) throws SQLException {
+
         int id = -1;
         StringBuilder st = new StringBuilder("SELECT ");
         st.append(clave);
@@ -46,21 +61,12 @@ public class Access extends AbstractDB {
         st.append(condicion);
         st.append(";");
         super.setQuery(st.toString());
-        id = super.getIntFromQuery();
+        super.openConnection();
+        id = this.getIntFromQuery();
         //id_archivoArchivonombre=('" + nombre + "');";
+        super.closeConnection();
         return id;
     }
-
-//    public void insertPoA(String tabla, String valor) {
-//        StringBuilder st = new StringBuilder("");
-//        st.append("INSERT INTO ");
-//        st.append(tabla);
-//        st.append("(nombre) VALUES('");
-//        st.append(valor);
-//        st.append("');");
-//        super.setQuery(st.toString());
-//        super.executeSingleQuery();
-//    }
 
     @Override
     public void insertar(String tabla, String[] columnas, String[] values) {
@@ -75,38 +81,21 @@ public class Access extends AbstractDB {
             }
         }
         st.append(") ");
-        st.append("VALUES('");
+        st.append("VALUES(");
         for (int i = 0; i < values.length; i++) {
+            st.append("'");
             st.append(values[i]);
+            st.append("'");
             if (i != values.length - 1) {
+
                 st.append(", ");
             }
         }
-        st.append("');");
+        st.append(");");
         super.setQuery(st.toString());
+        super.openConnection();
         super.executeSingleQuery();
+        super.closeConnection();
     }
-    public ArrayList selectEstado() throws SQLException{
-        System.out.println("SelectEstado");
-        ArrayList<Estado> estados=new ArrayList<>();
-        try {
-            ResultSet res=null;
-            String sql = "SELECT * FROM estado";
-            super.setQuery(sql);
-            res=super.getResultsFromQuery();
-            while (res.next()) {
-                int id = res.getInt("id_estado");
-                String des = res.getString("descripcion");
-                Estado es=new Estado(id, des);
-                estados.add(es);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Access.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error en cargar estado: "+ex.toString());
-        }
-        
-        return estados;
-    }
-    
 
 }

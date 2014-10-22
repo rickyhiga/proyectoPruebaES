@@ -7,6 +7,7 @@ package frames;
 
 import controllers.CargarPreguntas;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -259,9 +260,14 @@ public class FrmCargarPreguntas extends javax.swing.JFrame {
         if (pc.getHayErrores() == false && rc.getHayErrores()==false) {
             int dialogResult = JOptionPane.showConfirmDialog(null, "La pregunta a agregar es: " + txtAreaPregunta.getText()+". La respuesta es: "+ this.txtAreaRes.getText(), "ATENCIÓN", OK_CANCEL_OPTION);
             if (dialogResult == JOptionPane.OK_OPTION) {
-                if(rc.cargarPregunta(this.txtAreaPregunta, this.txtAreaRes)==true){
-                    JOptionPane.showMessageDialog(this, "Pregunta y respuesta cargada con éxito");
-                    this.dispose();
+                try {
+                    rc.cargarPregunta(this.txtAreaPregunta, this.txtAreaRes);
+                        JOptionPane.showMessageDialog(this, "Pregunta y respuesta cargada con éxito");
+                        this.dispose();
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmCargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "No se ha podido cargar la pregunta/respuesta");
                 }
             }
         }else{

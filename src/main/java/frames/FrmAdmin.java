@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package frames;
 
 import controllers.Admin;
@@ -12,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,17 +23,17 @@ public class FrmAdmin extends javax.swing.JFrame {
      * Creates new form FrmCargarCicloLectivo
      */
     Admin a;
-    JComboBox[] c=new JComboBox[3];
-        
+    JComboBox[] c = new JComboBox[3];
+
     public FrmAdmin() throws SQLException {
         initComponents();
-        a=new Admin();
-        c[0]=this.cboEstadoPregunta;
-        c[1]=this.cboEstadoTema;
-        c[2]=this.cboEstadoUnidad;
-        a.cargarEstado(c,this.tblEstado);
+        a = new Admin();
+        c[0] = this.cboEstadoPregunta;
+        c[1] = this.cboEstadoTema;
+        c[2] = this.cboEstadoUnidad;
+        a.cargarEstado(c, this.tblEstado);
     }
- 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -840,20 +840,26 @@ public class FrmAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescripcionPlanActionPerformed
 
     private void cmdAgregarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarEstadoActionPerformed
-        a.agregarEstado(this.txtDescripcionEstado);
-        try {
-            a.cargarEstado(c, this.tblEstado);
-        } catch (SQLException ex) {
-            Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        if (a.agregarEstado(this.txtDescripcionEstado) == true) {
+            try {
+                this.tblEstado.removeAll();
+                
+                a.cargarEstado(c, this.tblEstado);
+            } catch (SQLException ex) {
+                Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe colocar alguna descripcion");
         }
+
     }//GEN-LAST:event_cmdAgregarEstadoActionPerformed
 
     private void cmdModificarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdModificarEstadoActionPerformed
-        
+
     }//GEN-LAST:event_cmdModificarEstadoActionPerformed
 
     private void cmdAgregarPregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAgregarPregActionPerformed
-        FrmCargarPreguntas fr=new FrmCargarPreguntas();
+        FrmCargarPreguntas fr = new FrmCargarPreguntas();
         fr.show();
     }//GEN-LAST:event_cmdAgregarPregActionPerformed
 

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controllers;
 
 import clases.DataBase;
 import clases.ManejoLang;
+import config.Config;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,53 +15,47 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
+import model.Access;
+import model.ModelPregunta;
 
 /**
  *
  * @author user
  */
 public class CargarPreguntas {
-   ManejoLang m = new ManejoLang();
-   DataBase db=new DataBase();
+
+    ManejoLang m = new ManejoLang();
+    DataBase db = new DataBase();
+
+   // ModelPregunta p = new ModelPregunta;
+    CtrPregunta preg=new CtrPregunta(Config.dbPath);
+    CtrRespuesta resp=new CtrRespuesta(Config.dbPath);
     public void corregir(JTextArea sin, JTextArea cor) throws IOException, BadLocationException {
-        
+
         m.corregirArea(sin, cor);
     }
-    public boolean getHayErrores(){
+
+    public boolean getHayErrores() {
         return m.getTieneErrores();
     }
-    public void setHayErrores(boolean b){
+
+    public void setHayErrores(boolean b) {
         m.setTieneErrores(b);
     }
-    public boolean cargarPregunta(JTextArea pre, JTextArea res){
-       boolean b=false;
-        try {
-           StringBuilder pr=new StringBuilder("INSERT INTO pregunta(descripcion) VALUES('" );
-           pr.append(pre.getText());
-           pr.append("');");
-           db.ejecutar(pr.toString());
-           StringBuilder num=new StringBuilder("select MAX(id_preg) as id from pregunta;");
-           ResultSet rs=db.consulta(num.toString());
-           int id=0;
-           while(rs.next()){
-               id=rs.getInt("id");
-           }
-           
-           db.cerrarConsulta();
-           System.out.println("id="+id);
-           StringBuilder r=new StringBuilder("INSERT INTO respuesta(descripcion, id_preg) VALUES('" );
-           r.append(res.getText());
-           r.append("', ");
-           r.append(id);
-           r.append(");");
-           db.ejecutar(r.toString());
-           b=true;
-           
-       } catch (SQLException ex) {
-           Logger.getLogger(CargarPreguntas.class.getName()).log(Level.SEVERE, null, ex);
-           b=false;
-       }
-       return b;
+
+    public void cargarPregunta(JTextArea pre, JTextArea res) throws SQLException {
+       
+        String[] values = new String[1];
+        values[0] = pre.getText();
+       int id= preg.insertar(values);
+        
+       
+        String[] val = new String[2];
+        val[0]=res.getText();
+        
+        val[1]= Integer.toString(id);
+        int i=resp.insertar(val);
+      
     }
-    
+
 }
